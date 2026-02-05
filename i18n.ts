@@ -56,7 +56,7 @@ function applyTranslations(): void {
   elements.forEach((el) => {
     const key = el.dataset.i18n as keyof Translations;
     if (t[key]) {
-      el.textContent = t[key];
+      el.innerHTML = t[key];
     }
   });
 

@@ -3,7 +3,7 @@
     "hero.subtitle": "Software Developer",
     "hero.cta": "View Work",
     "about.title": "About Me",
-    "about.description": "I'm a passionate developer focused on building modern, high-performance web applications. I love exploring new technologies like Bun and creating seamless user experiences.",
+    "about.description": "I am a developer focused on C# and .NET, passionate about building simple, secure, and maintainable solutions. I have experience creating APIs with ASP.NET Core, working with Entity Framework Core and Dapper, as well as modeling and integrating with databases like PostgreSQL and SQL Server. On a daily basis, I also use Docker for consistent environments and Git/Azure DevOps for versioning, Pull Requests, and pipelines.<br><br>I enjoy working on challenges involving system integration, data modeling, and continuous improvement of performance and reliability. I pay attention to architecture, code quality, and best practices, such as automated tests with xUnit and layered organization (Clean Architecture/DDD when it makes sense). I seek a balance between pragmatism and well-crafted engineering: delivering value without sacrificing standards that facilitate product evolution.",
     "projects.title": "Projects",
     "projects.loading": "Loading Projects...",
     "footer.copyright": "© 2026 Rafael. Built with Bun & Vite."
