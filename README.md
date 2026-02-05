@@ -1,4 +1,8 @@
-# site-rafael
+# Site Rafael
+
+A personal portfolio website built with [Bun](https://bun.com) and [Vite](https://vitejs.dev/).
+
+## Getting Started
 
 To install dependencies:
 
@@ -6,10 +10,20 @@ To install dependencies:
 bun install
 ```
 
-To run:
+To run the development server:
 
 ```bash
-bun run index.ts
+bun run dev
 ```
 
-This project was created using `bun init` in bun v1.3.8. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+To build for production:
+
+```bash
+bun run build
+```
+
+To preview the production build:
+
+```bash
+bun run preview
+```
