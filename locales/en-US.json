@@ -1,0 +1,10 @@
+{
+    "hero.greeting": "Hello, I'm",
+    "hero.subtitle": "Software Developer",
+    "hero.cta": "View Work",
+    "about.title": "About Me",
+    "about.description": "I'm a passionate developer focused on building modern, high-performance web applications. I love exploring new technologies like Bun and creating seamless user experiences.",
+    "projects.title": "Projects",
+    "projects.loading": "Loading Projects...",
+    "footer.copyright": "© 2026 Rafael. Built with Bun & Vite."
+}

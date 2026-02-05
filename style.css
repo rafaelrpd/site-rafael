@@ -1,9 +1,14 @@
 :root {
-  --bg-color: #020617; /* Slate 950 */
-  --text-color: #f8fafc; /* Slate 50 */
-  --text-muted: #94a3b8; /* Slate 400 */
-  --primary: #8b5cf6; /* Violet 500 */
-  --secondary: #06b6d4; /* Cyan 500 */
+  --bg-color: #020617;
+  /* Slate 950 */
+  --text-color: #f8fafc;
+  /* Slate 50 */
+  --text-muted: #94a3b8;
+  /* Slate 400 */
+  --primary: #8b5cf6;
+  /* Violet 500 */
+  --secondary: #06b6d4;
+  /* Cyan 500 */
   --glass-bg: rgba(30, 41, 59, 0.4);
   --glass-border: rgba(255, 255, 255, 0.1);
   --font-main: 'Outfit', sans-serif;
@@ -44,6 +49,41 @@ a {
   text-align: center;
 }
 
+/* Language Switcher */
+.language-switcher {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 100;
+}
+
+.lang-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.lang-btn:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-color);
+}
+
+.lang-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-color: transparent;
+  color: white;
+}
+
 .hero-content {
   z-index: 10;
 }
@@ -58,6 +98,7 @@ h1 {
 .gradient-text {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
