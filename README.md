@@ -27,3 +27,23 @@ To preview the production build:
 ```bash
 bun run preview
 ```
+
+## Linting and Formatting
+
+To check for code quality issues:
+
+```bash
+bun run lint
+```
+
+To automatically fix linting issues:
+
+```bash
+bun run lint:fix
+```
+
+To format code with Prettier:
+
+```bash
+bun run format
+```
