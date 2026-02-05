@@ -6,5 +6,7 @@
     "about.description": "Sou desenvolvedor com foco em C# e .NET, apaixonado por construir soluções simples, seguras e fáceis de manter. Tenho experiência criando APIs com ASP.NET Core, trabalhando com Entity Framework Core e Dapper, além de modelagem e integração com bancos de dados como PostgreSQL e SQL Server. No dia a dia, também utilizo Docker para ambientes consistentes e Git/Azure DevOps para versionamento, Pull Requests e pipelines.<br><br>Gosto de trabalhar com desafios que envolvem integração de sistemas, modelagem de dados e melhoria contínua de performance e confiabilidade. Tenho atenção a arquitetura, qualidade de código e boas práticas, como testes automatizados com xUnit e organização em camadas (Clean Architecture/DDD quando faz sentido). Busco equilíbrio entre pragmatismo e engenharia bem feita: entregar valor sem abrir mão de padrões que facilitem a evolução do produto.",
     "projects.title": "Projetos",
     "projects.loading": "Carregando Projetos...",
+    "project.site.title": "Site Pessoal",
+    "project.site.description": "Meu portfólio pessoal construído com Bun, Vite e TypeScript.",
     "footer.copyright": "© 2026 Rafael. Feito com Bun & Vite."
 }

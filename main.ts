@@ -1,8 +1,10 @@
 import './style.css';
 import { initI18n } from './i18n';
+import { renderProjects } from './projects';
 
 // Initialize internationalization
 document.addEventListener('DOMContentLoaded', () => {
+  renderProjects();
   initI18n();
 
   // Remove loading screen
