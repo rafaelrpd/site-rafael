@@ -49,7 +49,7 @@ function detectLanguage(): Locale {
 /**
  * Applies translations to all elements with data-i18n attribute.
  */
-function applyTranslations(): void {
+export function applyTranslations(): void {
   const t = translations[currentLocale];
   const elements = document.querySelectorAll<HTMLElement>('[data-i18n]');
 

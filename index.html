@@ -7,72 +7,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Portfolio of Rafael - Software Developer" />
   <title>Rafael | Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
+  <div class="hero-bg-mesh"></div>
+  <!-- Loading Screen -->
   <div id="loading-screen">
     <div class="loader"></div>
   </div>
+
   <div id="app">
+    <!-- Hero Section -->
     <header class="hero">
-      <div class="language-switcher">
+      <div class="hero-bg-mesh"></div>
+
+      <div class="language-switcher fade-up visible">
         <button data-lang="en-US" class="lang-btn active">EN-US</button>
         <button data-lang="pt-BR" class="lang-btn">PT-BR</button>
       </div>
-      <div class="hero-content">
+
+      <div class="hero-content container fade-up visible">
         <h1><span data-i18n="hero.greeting">Hello, I'm</span> <span class="gradient-text">Rafael</span></h1>
         <p class="subtitle" data-i18n="hero.subtitle">Software Developer</p>
+
         <div class="tech-stack">
           <span class="badgess">JavaScript</span>
           <span class="badgess">TypeScript</span>
           <span class="badgess">C#</span>
           <span class="badgess">.NET</span>
-          <span class="badgess">.NET Framework</span>
           <span class="badgess">ASP.NET Core</span>
-          <span class="badgess">Entity Framework Core</span>
-          <span class="badgess">Dapper</span>
+          <span class="badgess">Entity Framework</span>
           <span class="badgess">SQL Server</span>
           <span class="badgess">PostgreSQL</span>
           <span class="badgess">Docker</span>
-          <span class="badgess">Git</span>
           <span class="badgess">Azure DevOps</span>
           <span class="badgess">xUnit</span>
           <span class="badgess">Bun</span>
           <span class="badgess">Vite</span>
         </div>
+
         <a href="#projects" class="cta-button" data-i18n="hero.cta">View Work</a>
       </div>
-      <div class="hero-background"></div>
     </header>
 
     <main>
+      <!-- About Section -->
       <section id="about" class="section">
-        <h2 data-i18n="about.title">About Me</h2>
-        <div class="card glass">
-          <p data-i18n="about.description">
-            I'm a passionate developer focused on building modern, high-performance web applications.
-            I love exploring new technologies like Bun and creating seamless user experiences.
-          </p>
+        <div class="container section-content fade-up">
+          <h2 data-i18n="about.title">About Me</h2>
+          <div class="card glass">
+            <p data-i18n="about.description">
+              I'm a passionate developer focused on building modern, high-performance web applications.
+              I love exploring new technologies like Bun and creating seamless user experiences.
+            </p>
+          </div>
         </div>
       </section>
 
+      <!-- Projects Section -->
       <section id="projects" class="section">
-        <h2 data-i18n="projects.title">Projects</h2>
-        <div id="projects-grid" class="grid">
-          <!-- Projects will be loaded here dynamically -->
-          <div class="card glass project-card loading">
-            <h3 data-i18n="projects.loading">Loading Projects...</h3>
+        <div class="container section-content fade-up">
+          <h2 data-i18n="projects.title">Projects</h2>
+          <div id="projects-grid" class="grid">
+            <!-- Projects will be loaded here dynamically -->
+            <div class="card glass project-card loading">
+              <h3 data-i18n="projects.loading">Loading Projects...</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="section">
+        <div class="container section-content fade-up">
+          <h2 data-i18n="contact.title">Get In Touch</h2>
+          <div class="card glass contact-card">
+            <form id="contact-form">
+              <!-- Removed legacy formsubmit.co inputs -->
+
+              <div class="form-group">
+                <label for="name" data-i18n="contact.name">Name</label>
+                <input type="text" id="name" name="name" required autocomplete="name">
+              </div>
+
+              <div class="form-group">
+                <label for="email" data-i18n="contact.email">Email</label>
+                <input type="email" id="email" name="email" required autocomplete="email">
+              </div>
+
+              <div class="form-group">
+                <label for="message" data-i18n="contact.message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+              </div>
+
+              <button type="submit" class="cta-button" data-i18n="contact.send" style="width: 100%">Send
+                Message</button>
+              <p id="form-status" class="form-status"></p>
+            </form>
           </div>
         </div>
       </section>
     </main>
 
     <footer>
-      <p data-i18n="footer.copyright">© 2026 Rafael. Built with Bun & Vite.</p>
+      <div class="container">
+        <p data-i18n="footer.copyright">© 2026 Rafael. Built with Bun & Vite.</p>
+      </div>
     </footer>
   </div>
   <script type="module" src="/main.ts"></script>

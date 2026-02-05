@@ -8,5 +8,13 @@
     "projects.loading": "Carregando Projetos...",
     "project.site.title": "Site Pessoal",
     "project.site.description": "Meu portfólio pessoal construído com Bun, Vite e TypeScript.",
+    "contact.title": "Entre em Contato",
+    "contact.name": "Nome",
+    "contact.email": "E-mail",
+    "contact.message": "Mensagem",
+    "contact.send": "Enviar Mensagem",
+    "contact.sending": "Enviando...",
+    "contact.success": "Mensagem enviada com sucesso!",
+    "contact.error": "Falha ao enviar mensagem.",
     "footer.copyright": "© 2026 Rafael. Feito com Bun & Vite."
 }
