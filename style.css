@@ -431,6 +431,13 @@ textarea {
   color: #ef4444;
 }
 
+/* Turnstile Widget */
+.turnstile-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
 /* Scroll Animations */
 .fade-up {
   opacity: 0;

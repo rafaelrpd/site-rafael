@@ -8,6 +8,8 @@
   <meta name="description" content="Portfolio of Rafael - Software Developer" />
   <title>Rafael | Portfolio</title>
   <link rel="stylesheet" href="./style.css" />
+  <!-- Cloudflare Turnstile -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
 <body>
@@ -101,7 +103,14 @@
                 <textarea id="message" name="message" rows="5" required></textarea>
               </div>
 
-              <button type="submit" class="cta-button" data-i18n="contact.send" style="width: 100%">Send
+              <!-- Turnstile Widget -->
+              <div class="form-group turnstile-container">
+                <div class="cf-turnstile" data-sitekey="0x4AAAAAACYSQicu6PsEj5hg" data-callback="onTurnstileSuccess"
+                  data-expired-callback="onTurnstileExpired" data-theme="dark"></div>
+              </div>
+
+              <button type="submit" id="submit-btn" class="cta-button" data-i18n="contact.send" style="width: 100%"
+                disabled>Send
                 Message</button>
               <p id="form-status" class="form-status"></p>
             </form>
