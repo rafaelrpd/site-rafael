@@ -16,7 +16,7 @@
     // - RESEND_API_KEY
     // - RESEND_FROM_EMAIL
     // ==============================================================================
-    "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+    "$schema": "node_modules/wrangler/config-schema.json",
     "name": "rafaeldias-mail-router",
     "main": "src/index.ts",
     "compatibility_date": "2025-02-06",
@@ -60,7 +60,7 @@
         "DOMAIN": "rafaeldias.net",
         "ADMIN_GMAIL_EMAIL": "br.rafaeldias@gmail.com",
         "DESTINATION_GMAIL_EMAIL": "br.rafaeldias@gmail.com",
-        "ALLOWED_ORIGINS": "https://rafaeldias.net,https://www.rafaeldias.net",
+        "ALLOWED_ORIGINS": "https://rafaeldias.net,https://www.rafaeldias.net,http://localhost:5173",
         "CONTACT_FROM": "contact@rafaeldias.net",
         "REPLY_LOCAL_PART": "reply",
         "THREAD_TTL_SECONDS": "2592000",
