@@ -28,7 +28,6 @@
     "noPropertyAccessFromIndexSignature": false
   },
   "exclude": [
-    "worker-mail",
     "node_modules"
   ]
 }

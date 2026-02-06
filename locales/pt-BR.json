@@ -16,7 +16,6 @@
     "contact.sending": "Enviando...",
     "contact.success": "Mensagem enviada com sucesso!",
     "contact.error": "Falha ao enviar mensagem.",
-    "contact.turnstile_required": "Por favor, complete a verificação.",
     "contact.disabled": "O formulário de contato está temporariamente desativado.",
     "footer.copyright": "© 2026 Rafael. Feito com Bun & Vite."
 }
