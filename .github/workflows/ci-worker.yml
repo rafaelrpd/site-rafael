@@ -2,9 +2,9 @@ name: CI Worker
 
 on:
   pull_request:
-    branches: [worker-prod]
-    paths:
-      - "worker-mail/**"
+    branches: 
+      - worker-prod
+      - main
 
 jobs:
   typecheck:
