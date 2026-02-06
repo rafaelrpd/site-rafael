@@ -17,5 +17,6 @@
     "contact.success": "Message sent successfully!",
     "contact.error": "Failed to send message.",
     "contact.turnstile_required": "Please complete the verification.",
+    "contact.disabled": "Contact form is temporarily disabled.",
     "footer.copyright": "© 2026 Rafael. Built with Bun & Vite."
 }
