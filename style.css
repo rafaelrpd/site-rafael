@@ -299,6 +299,14 @@ p {
   box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.3);
 }
 
+
+.cta-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 /* Sections */
 .section {
   padding: 8rem 0;
@@ -344,7 +352,7 @@ p {
   position: relative;
   overflow: hidden;
   text-decoration: none;
-  group: project;
+
 }
 
 .project-card:hover {
