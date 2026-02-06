@@ -3,25 +3,69 @@ import { applyTranslations } from './i18n';
 // Turnstile token state
 let turnstileToken: string | null = null;
 
+// Turnstile options interface
+interface TurnstileOptions {
+  sitekey: string;
+  theme?: 'light' | 'dark' | 'auto';
+  callback?: (token: string) => void;
+  'expired-callback'?: () => void;
+  'error-callback'?: () => void;
+  action?: string;
+  cData?: string;
+  size?: 'normal' | 'compact' | 'flexible';
+}
+
 // Turnstile callbacks (exposed globally for the widget)
 declare global {
   interface Window {
-    onTurnstileSuccess: (token: string) => void;
-    onTurnstileExpired: () => void;
+    turnstile?: {
+      reset: () => void;
+      render: (container: string | HTMLElement, options: TurnstileOptions) => string;
+    };
   }
 }
 
-window.onTurnstileSuccess = (token: string) => {
-  turnstileToken = token;
-  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
-  if (submitBtn) submitBtn.disabled = false;
-};
+function renderTurnstile() {
+  const widgetId = 'turnstile-widget';
 
-window.onTurnstileExpired = () => {
-  turnstileToken = null;
-  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
-  if (submitBtn) submitBtn.disabled = true;
-};
+  // Check if element exists
+  if (!document.getElementById(widgetId)) {
+    console.warn('Turnstile widget container not found');
+    return;
+  }
+
+  // Check if turnstile API is loaded
+  if (!window.turnstile) {
+    console.log('Turnstile API not ready, retrying in 100ms...');
+    setTimeout(renderTurnstile, 100);
+    return;
+  }
+
+  try {
+    window.turnstile.render('#' + widgetId, {
+      sitekey: '0x4AAAAAACYSQicu6PsEj5hg',
+      theme: 'dark',
+      callback: (token: string) => {
+        console.log('Turnstile success (explicit)! Token received.');
+        turnstileToken = token;
+        const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+        if (submitBtn) {
+          console.log('Enabling submit button');
+          submitBtn.disabled = false;
+        }
+      },
+      'expired-callback': () => {
+        console.log('Turnstile expired');
+        turnstileToken = null;
+        const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+        if (submitBtn) submitBtn.disabled = true;
+      },
+    });
+    console.log('Turnstile rendered explicitly.');
+  } catch (err) {
+    console.error('Failed to render Turnstile:', err);
+  }
+}
 
 export function initContactForm() {
   console.log('Initializing contact form...');
@@ -35,6 +79,17 @@ export function initContactForm() {
   }
 
   console.log('Contact form elements found, attaching listener.');
+
+  // Initialize Turnstile
+  renderTurnstile();
+
+  // Add click listener for logging
+  submitBtn.addEventListener('click', () => {
+    console.log('Submit button clicked');
+    if (submitBtn.disabled) {
+      console.warn('Submit button is disabled, but click event fired (unexpected)');
+    }
+  });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -110,13 +165,4 @@ export function initContactForm() {
       }, 5000);
     }
   });
-}
-
-// Extend window for Turnstile API
-declare global {
-  interface Window {
-    turnstile?: {
-      reset: () => void;
-    };
-  }
 }
