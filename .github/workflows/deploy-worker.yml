@@ -24,6 +24,10 @@ jobs:
         working-directory: worker-mail
         run: bun install
 
+      - name: TypeCheck
+        working-directory: worker-mail
+        run: bun run typecheck
+
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
