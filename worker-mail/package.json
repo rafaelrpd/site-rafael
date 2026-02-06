@@ -1,0 +1,19 @@
+{
+    "name": "rafaeldias-mail-router",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "typecheck": "tsc --noEmit",
+        "deploy": "wrangler deploy"
+    },
+    "dependencies": {
+        "mimetext": "^3.0.24",
+        "postal-mime": "^2.4.1"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "^4.20250130.0",
+        "typescript": "^5.9.3",
+        "wrangler": "^3.105.1"
+    }
+}
