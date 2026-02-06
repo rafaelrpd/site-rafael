@@ -1,168 +1,42 @@
 import { applyTranslations } from './i18n';
 
-// Turnstile token state
-let turnstileToken: string | null = null;
-
-// Turnstile options interface
-interface TurnstileOptions {
-  sitekey: string;
-  theme?: 'light' | 'dark' | 'auto';
-  callback?: (token: string) => void;
-  'expired-callback'?: () => void;
-  'error-callback'?: () => void;
-  action?: string;
-  cData?: string;
-  size?: 'normal' | 'compact' | 'flexible';
-}
-
-// Turnstile callbacks (exposed globally for the widget)
-declare global {
-  interface Window {
-    turnstile?: {
-      reset: () => void;
-      render: (container: string | HTMLElement, options: TurnstileOptions) => string;
-    };
-  }
-}
-
-function renderTurnstile() {
-  const widgetId = 'turnstile-widget';
-
-  // Check if element exists
-  if (!document.getElementById(widgetId)) {
-    console.warn('Turnstile widget container not found');
-    return;
-  }
-
-  // Check if turnstile API is loaded
-  if (!window.turnstile) {
-    console.log('Turnstile API not ready, retrying in 100ms...');
-    setTimeout(renderTurnstile, 100);
-    return;
-  }
-
-  try {
-    window.turnstile.render('#' + widgetId, {
-      sitekey: '0x4AAAAAACYSQicu6PsEj5hg',
-      theme: 'dark',
-      callback: (token: string) => {
-        console.log('Turnstile success (explicit)! Token received.');
-        turnstileToken = token;
-        const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
-        if (submitBtn) {
-          console.log('Enabling submit button');
-          submitBtn.disabled = false;
-        }
-      },
-      'expired-callback': () => {
-        console.log('Turnstile expired');
-        turnstileToken = null;
-        const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
-        if (submitBtn) submitBtn.disabled = true;
-      },
-    });
-    console.log('Turnstile rendered explicitly.');
-  } catch (err) {
-    console.error('Failed to render Turnstile:', err);
-  }
-}
-
 export function initContactForm() {
-  console.log('Initializing contact form...');
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const statusMessage = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
 
   if (!form || !statusMessage || !submitBtn) {
-    console.error('Contact form elements not found:', { form, statusMessage, submitBtn });
     return;
   }
 
-  console.log('Contact form elements found, attaching listener.');
+  // Enable button immediately
+  submitBtn.disabled = false;
 
-  // Initialize Turnstile
-  renderTurnstile();
-
-  // Add click listener for logging
-  submitBtn.addEventListener('click', () => {
-    console.log('Submit button clicked');
-    if (submitBtn.disabled) {
-      console.warn('Submit button is disabled, but click event fired (unexpected)');
-    }
-  });
-
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('Form submission triggered.');
 
-    // Validate Turnstile token
-    if (!turnstileToken) {
-      console.warn('Turnstile token missing.');
-      statusMessage.setAttribute('data-i18n', 'contact.turnstile_required');
-      statusMessage.textContent = 'Please complete the verification.';
+    // Collect form data
+    const name = (document.getElementById('name') as HTMLInputElement).value.trim();
+    const message = (document.getElementById('message') as HTMLTextAreaElement).value.trim();
+
+    if (!name || !message) {
+      statusMessage.setAttribute('data-i18n', 'contact.error');
+      statusMessage.textContent = 'Please fill in all fields.';
       statusMessage.className = 'form-status error active';
       applyTranslations();
       return;
     }
 
-    // Set loading state
-    console.log('Sending request...');
-    submitBtn.disabled = true;
-    submitBtn.setAttribute('data-i18n', 'contact.sending');
+    // Form disabled for now
+    statusMessage.setAttribute('data-i18n', 'contact.disabled');
+    statusMessage.textContent = ''; // Clear content to let i18n handle it or set a fallback
+    statusMessage.className = 'form-status error active';
     applyTranslations();
 
-    // Collect form data
-    const formData = {
-      name: (document.getElementById('name') as HTMLInputElement).value.trim(),
-      email: (document.getElementById('email') as HTMLInputElement).value.trim(),
-      message: (document.getElementById('message') as HTMLTextAreaElement).value.trim(),
-      turnstileToken: turnstileToken,
-    };
-
-    try {
-      const response = await fetch('https://rafaeldias.net/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      console.log('Response received:', response.status);
-      const result = await response.json();
-      console.log('Result:', result);
-
-      if (response.ok && result.ok) {
-        statusMessage.setAttribute('data-i18n', 'contact.success');
-        statusMessage.className = 'form-status success active';
-        form.reset();
-
-        // Reset Turnstile
-        if (window.turnstile) {
-          window.turnstile.reset();
-        }
-        turnstileToken = null;
-      } else {
-        statusMessage.setAttribute('data-i18n', 'contact.error');
-        statusMessage.textContent = result.error || 'An error occurred.';
-        statusMessage.className = 'form-status error active';
-      }
-    } catch (error) {
-      console.error('Error sending form:', error);
-      statusMessage.setAttribute('data-i18n', 'contact.error');
-      statusMessage.className = 'form-status error active';
-    } finally {
-      // Reset button state
-      submitBtn.disabled = !turnstileToken;
-      submitBtn.setAttribute('data-i18n', 'contact.send');
-      applyTranslations();
-
-      // Hide status message after 5 seconds
-      setTimeout(() => {
-        statusMessage.classList.remove('active');
-        statusMessage.classList.remove('success');
-        statusMessage.classList.remove('error');
-      }, 5000);
-    }
+    // Hide status message after 5 seconds
+    setTimeout(() => {
+      statusMessage.classList.remove('active');
+      statusMessage.classList.remove('error');
+    }, 5000);
   });
 }
