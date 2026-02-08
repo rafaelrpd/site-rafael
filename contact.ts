@@ -1,5 +1,17 @@
 import { applyTranslations } from './i18n';
 
+let turnstileToken: string | null = null;
+let startedAt = 0;
+
+declare global {
+  interface Window {
+    onTurnstileSuccess: (token: string) => void;
+    onTurnstileError: () => void;
+    onTurnstileExpired: () => void;
+    onTurnstileTimeout: () => void;
+  }
+}
+
 export function initContactForm() {
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const statusMessage = document.getElementById('form-status');
@@ -9,17 +21,50 @@ export function initContactForm() {
     return;
   }
 
-  // Enable button immediately
-  submitBtn.disabled = false;
+  submitBtn.disabled = true;
 
-  form.addEventListener('submit', (e) => {
+  const startTimer = () => {
+    if (!startedAt) startedAt = Date.now();
+  };
+
+  form.addEventListener('focusin', startTimer, { once: true });
+  form.addEventListener('input', startTimer, { once: true });
+
+  // Callbacks globais pro Turnstile
+  window.onTurnstileSuccess = (token) => {
+    turnstileToken = token;
+    submitBtn.disabled = false;
+  };
+
+  window.onTurnstileExpired = () => {
+    turnstileToken = null;
+    submitBtn.disabled = true;
+  };
+
+  window.onTurnstileError = () => {
+    turnstileToken = null;
+    submitBtn.disabled = true;
+  };
+
+  window.onTurnstileTimeout = () => {
+    turnstileToken = null;
+    submitBtn.disabled = true;
+  };
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     // Collect form data
     const name = (document.getElementById('name') as HTMLInputElement).value.trim();
+    const email = (document.getElementById('email') as HTMLInputElement).value.trim();
     const message = (document.getElementById('message') as HTMLTextAreaElement).value.trim();
 
-    if (!name || !message) {
+    // Honeypot (anti-not-so-smart bots)
+    const middleName =
+      (document.getElementById('middleName') as HTMLInputElement | null)?.value?.trim() ?? '';
+    const elapsedMs = startedAt ? Date.now() - startedAt : 0;
+
+    if (!name || !email || !message) {
       statusMessage.setAttribute('data-i18n', 'contact.error');
       statusMessage.textContent = 'Please fill in all fields.';
       statusMessage.className = 'form-status error active';
@@ -27,16 +72,42 @@ export function initContactForm() {
       return;
     }
 
-    // Form disabled for now
-    statusMessage.setAttribute('data-i18n', 'contact.disabled');
-    statusMessage.textContent = ''; // Clear content to let i18n handle it or set a fallback
-    statusMessage.className = 'form-status error active';
-    applyTranslations();
+    if (!turnstileToken) {
+      statusMessage.setAttribute('data-i18n', 'contact.turnstile.error');
+      statusMessage.textContent = 'Failed to verify you are human.';
+      statusMessage.className = 'form-status error active';
+      applyTranslations();
+      return;
+    }
+
+    const res = await fetch('https://www.rafaeldias.net/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+        middleName,
+        elapsedMs,
+        turnstileToken,
+      }),
+    });
+
+    if (res.ok) {
+      statusMessage.setAttribute('data-i18n', 'contact.success');
+      statusMessage.textContent = 'Message sent successfully.';
+      statusMessage.className = 'form-status success active';
+    } else {
+      statusMessage.setAttribute('data-i18n', 'contact.error');
+      statusMessage.textContent = 'Failed to send message.';
+      statusMessage.className = 'form-status error active';
+    }
 
     // Hide status message after 5 seconds
     setTimeout(() => {
       statusMessage.classList.remove('active');
       statusMessage.classList.remove('error');
+      statusMessage.classList.remove('success');
     }, 5000);
   });
 }
