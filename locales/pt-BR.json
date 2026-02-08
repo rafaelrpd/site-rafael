@@ -10,12 +10,16 @@
     "project.site.description": "Meu portfólio pessoal construído com Bun, Vite e TypeScript.",
     "contact.title": "Entre em Contato",
     "contact.name": "Nome",
+    "contact.middleName": "Sobrenome",
     "contact.email": "E-mail",
     "contact.message": "Mensagem",
     "contact.send": "Enviar Mensagem",
     "contact.sending": "Enviando...",
     "contact.success": "Mensagem enviada com sucesso!",
     "contact.error": "Falha ao enviar mensagem.",
+    "contact.turnstile.error": "Falha ao verificar se você é humano.",
+    "contact.turnstile.expired": "Sessão expirada. Tente novamente.",
+    "contact.turnstile.timeout": "Tempo esgotado. Tente novamente.",
     "contact.disabled": "O formulário de contato está temporariamente desativado.",
     "footer.copyright": "© 2026 Rafael. Feito com Bun & Vite."
 }
