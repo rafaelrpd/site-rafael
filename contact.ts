@@ -5,10 +5,10 @@ let startedAt = 0;
 
 declare global {
   interface Window {
-    onTurnstileSuccess: (token: string) => void;
-    onTurnstileError: () => void;
-    onTurnstileExpired: () => void;
-    onTurnstileTimeout: () => void;
+    onTurnstileSuccess?: (token: string) => void;
+    onTurnstileExpired?: () => void;
+    onTurnstileError?: () => void;
+    onTurnstileTimeout?: () => void;
   }
 }
 
@@ -54,6 +54,8 @@ export function initContactForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    submitBtn.disabled = true;
+
     // Collect form data
     const name = (document.getElementById('name') as HTMLInputElement).value.trim();
     const email = (document.getElementById('email') as HTMLInputElement).value.trim();
@@ -69,6 +71,7 @@ export function initContactForm() {
       statusMessage.textContent = 'Please fill in all fields.';
       statusMessage.className = 'form-status error active';
       applyTranslations();
+      submitBtn.disabled = false;
       return;
     }
 
@@ -77,30 +80,46 @@ export function initContactForm() {
       statusMessage.textContent = 'Failed to verify you are human.';
       statusMessage.className = 'form-status error active';
       applyTranslations();
+      submitBtn.disabled = false;
       return;
     }
 
-    const res = await fetch('https://www.rafaeldias.net/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-        middleName,
-        elapsedMs,
-        turnstileToken,
-      }),
-    });
+    const payload = {
+      name,
+      email,
+      message,
+      middleName,
+      elapsedMs,
+      turnstileToken,
+    };
 
-    if (res.ok) {
-      statusMessage.setAttribute('data-i18n', 'contact.success');
-      statusMessage.textContent = 'Message sent successfully.';
-      statusMessage.className = 'form-status success active';
-    } else {
+    try {
+      const res = await fetch('https://www.rafaeldias.net/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        statusMessage.setAttribute('data-i18n', 'contact.success');
+        statusMessage.textContent = 'Message sent successfully.';
+        statusMessage.className = 'form-status success active';
+
+        form.reset();
+        turnstileToken = null;
+        startedAt = 0;
+        submitBtn.disabled = true;
+      } else {
+        statusMessage.setAttribute('data-i18n', 'contact.error');
+        statusMessage.textContent = 'Failed to send message.';
+        statusMessage.className = 'form-status error active';
+        submitBtn.disabled = false;
+      }
+    } catch {
       statusMessage.setAttribute('data-i18n', 'contact.error');
       statusMessage.textContent = 'Failed to send message.';
       statusMessage.className = 'form-status error active';
+      submitBtn.disabled = false;
     }
 
     // Hide status message after 5 seconds
